@@ -1208,10 +1208,7 @@ h5 {
   z-index: 20 !important;
 }
 
-.partner-logo {
-  padding-bottom: 50px;
-  border-bottom: 1px solid #2f3039;
-}
+
 
 .partner-logo .pl-table {
   display: inline-block;
@@ -4654,4 +4651,8 @@ footer {
   background-color: black;
   color: white;
   padding: 20px 0;
+}
+
+.select2-container--open .select2-dropdown--above {
+  max-width: 300px;
 }
