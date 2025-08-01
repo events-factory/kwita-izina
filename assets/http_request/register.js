@@ -218,7 +218,7 @@ function displayForm(category_id) {
               $(this).append(`
               <div class="col-lg-12 col-md-12 mx-auto place-order d-flex justify-content-between">
                 <button type="button" class="vs-btn" onclick="prevStep(${element})">Previous</button>
-                  <button  id="register_delegates" type="submit" class="btn register-btn vs-btn place-order">Register</button>
+                  <button  id="register_delegates" type="submit" class="btn register-btn vs-btn">Register</button>
               </div>
             `);
             } else if (element === 0) {

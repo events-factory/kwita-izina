@@ -3078,7 +3078,7 @@ textarea.form-control.is-invalid {
 
 .phone-label {
   /* display: unset !important; */
-  left: 95px !important;
+  /* left: 95px !important; */
 }
 
 .select2-search__field {
@@ -3146,10 +3146,6 @@ input[type='tel'] {
 /* #registration-form .select2-selection__rendered {
   padding-left: 25px !important;
 } */
-
-#registration-form .phone-label {
-  left: 86px !important;
-}
 
 .shape1-img {
   position: absolute;
