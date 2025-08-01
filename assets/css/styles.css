@@ -1,0 +1,53 @@
+body {
+  font-family: 'Poppins', sans-serif;
+}
+.card-title {
+  font-weight: bold;
+  text-align: start;
+}
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: #3b5998;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.register-btn {
+  background-color: black !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.register-btn:hover {
+  background-color: #444;
+}
+
+.category-list {
+  padding: 0;
+  font-size: 12px !important;
+  text-align: start;
+}
+
+.category-text {
+  font-size: 12px !important;
+  font-weight: bold;
+  text-align: start;
+}
+
+.file-upload.mb-4.row {
+  margin: 12px;
+    margin-bottom: 12px;
+  width: 100%;
+}
+
+#file-input_id_1729321993 {
+  margin-right: 0;
+  width: 97%;
+}
+
+.partners-logo {
+  width: 140px;
+  /* height: 120px !important; */
+  object-fit: contain;
+}
