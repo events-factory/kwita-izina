@@ -605,7 +605,7 @@ function inputUI(input_obj) {
         <div class="form-group col-lg-4 px-4 col-sm-12">
         <label class="form-custom-label select-labels" for="${
           input.inputcode
-        }">${select_text} ${input_global}  ${isItRequired(input)}</label>
+        }"> ${input_global}  ${isItRequired(input)}</label>
             <select class="form-control" data-name="${input_global}" id="${
         input.inputcode
       }" data-input-type="${input.inputtype.id}" name="${
