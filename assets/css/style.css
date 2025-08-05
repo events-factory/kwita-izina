@@ -4539,7 +4539,7 @@ fieldset {
 
 .select2-results__option--selectable {
   font-family: 'Alexandria', sans-serif;
-  font-size: 12px;
+  font-size: 12px !important;
 }
 
 .select2-container--default
@@ -4655,4 +4655,7 @@ footer {
 
 .select2-container--open .select2-dropdown--above {
   max-width: 300px;
+}
+.select2-container--open .select2-dropdown--below {
+  width: 400px !important;
 }
