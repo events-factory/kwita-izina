@@ -596,11 +596,25 @@ function inputUI(input_obj) {
       `;
       break;
     case input.inputtype.id == 2:
-      options.forEach((option) => {
-        option_list += `
-                    <option value="${option.contentEnglish}">${option.contentEnglish}</option>
-                `;
-      });
+      // If this is the nationality field, filter out Hong Kong
+      if (input.inputcode === 'input_id_1704918388') {
+        options.forEach((option) => {
+          if (
+            option.contentEnglish.trim().toLowerCase() !== 'hong kong' &&
+            option.contentEnglish.trim().toLowerCase() !== 'hong kong sar'
+          ) {
+            option_list += `
+              <option value="${option.contentEnglish}">${option.contentEnglish}</option>
+            `;
+          }
+        });
+      } else {
+        options.forEach((option) => {
+          option_list += `
+            <option value="${option.contentEnglish}">${option.contentEnglish}</option>
+          `;
+        });
+      }
       input_field = `
         <div class="form-group col-lg-4 px-4 col-sm-12">
         <label class="form-custom-label select-labels" for="${
