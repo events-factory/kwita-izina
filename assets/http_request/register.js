@@ -183,7 +183,6 @@ function displayForm(category_id) {
         let groupInputs = '';
         element.inputs.forEach((FormData) => {
           groupInputs += inputUI(FormData);
-          console.log(groupInputs);
         });
         $('#ticket_id').val(category_id);
         $('#registration-form').append(`
@@ -596,8 +595,8 @@ function inputUI(input_obj) {
       `;
       break;
     case input.inputtype.id == 2:
-      // If this is the nationality field, filter out Hong Kong
       if (input.inputcode === 'input_id_1704918388') {
+        // Nationality field: filter out Hong Kong
         options.forEach((option) => {
           if (
             option.contentEnglish.trim().toLowerCase() !== 'hong kong' &&
@@ -607,6 +606,46 @@ function inputUI(input_obj) {
               <option value="${option.contentEnglish}">${option.contentEnglish}</option>
             `;
           }
+        });
+      } else if (input.inputcode === 'input_id_1754040055') {
+        // Preferred Tee Time Range: reorder and fix text
+        let teeOrder = ['Early', 'Mid-Morning', 'Late Morning'];
+        let teeOptions = [];
+        options.forEach((option) => {
+          let label = option.contentEnglish.replace(/\?/g, '-');
+          let key = '';
+          if (label.toLowerCase().includes('early')) key = 'Early';
+          else if (label.toLowerCase().includes('mid-morning'))
+            key = 'Mid-Morning';
+          else if (label.toLowerCase().includes('late morning'))
+            key = 'Late Morning';
+          if (key)
+            teeOptions.push({ key, value: option.contentEnglish, label });
+        });
+        teeOrder.forEach((orderKey) => {
+          teeOptions.forEach((opt) => {
+            if (opt.key === orderKey) {
+              option_list += `<option value="${opt.value}">${opt.label}</option>`;
+            }
+          });
+        });
+      } else if (input.inputcode === 'input_id_1754040290') {
+        // Size input: arrange from XS to XXL
+        let sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+        let sizeOptions = [];
+        options.forEach((option) => {
+          let label = option.contentEnglish.trim();
+          let key = label.toUpperCase();
+          if (sizeOrder.includes(key)) {
+            sizeOptions.push({ key, value: option.contentEnglish, label });
+          }
+        });
+        sizeOrder.forEach((orderKey) => {
+          sizeOptions.forEach((opt) => {
+            if (opt.key === orderKey) {
+              option_list += `<option value="${opt.value}">${opt.label}</option>`;
+            }
+          });
         });
       } else {
         options.forEach((option) => {
