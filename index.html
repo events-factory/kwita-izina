@@ -204,6 +204,18 @@
         overflow: hidden;
       }
 
+      /* Keep form hidden until it's ready to avoid layout jump; reveal with a fast fade */
+      #registration-form {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 160ms ease, visibility 0s linear 160ms;
+      }
+      #registration-form.form-visible {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 160ms ease;
+      }
+
       .form-container::before {
         content: '';
         position: absolute;
@@ -1240,9 +1252,14 @@
 
         const tryHide = () => {
           if (checkFormReady()) {
-            loader.style.transition = 'opacity 300ms ease';
+            // reveal form immediately with a very fast transition
+            const form = document.getElementById('registration-form');
+            if (form) {
+              form.classList.add('form-visible');
+            }
+            loader.style.transition = 'opacity 180ms ease';
             loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 350);
+            setTimeout(() => loader.remove(), 200);
             return true;
           }
           return false;
