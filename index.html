@@ -1112,6 +1112,7 @@
     </style>
   </head>
   <body>
+    <!-- removed global loader; a localized form loader will be placed under the form title -->
     <!-- Logo Section -->
     <div class="logo-container">
       <div class="container-fluid">
@@ -1151,6 +1152,31 @@
                 Please fill out all required fields to complete your
                 registration
               </p>
+              <!-- Local loader displayed under the title while the form content is fetched -->
+              <div
+                id="form-loader"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin-top: 1rem;
+                "
+              >
+                <div style="text-align: center">
+                  <div
+                    class="spinner-border text-success"
+                    role="status"
+                    style="width: 2.5rem; height: 2.5rem; margin-bottom: 0.5rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div
+                    style="font-weight: 600; color: #2d5016; font-size: 0.95rem"
+                  >
+                    Loading registration fields…
+                  </div>
+                </div>
+              </div>
             </div>
             <form
               class="row justify-content-center"
@@ -1196,5 +1222,53 @@
     <script src="assets/intelinpt/js/intlTelInput.js" defer></script>
     <script src="assets/http_request/http.config.js" defer></script>
     <script src="assets/http_request/register.js" defer></script>
+    <script>
+      // Hide the form-local loader when the registration form is populated or after 10s fallback
+      (function () {
+        const loader = document.getElementById('form-loader');
+        const checkFormReady = () => {
+          const form = document.getElementById('registration-form');
+          if (!form) return false;
+          // If form has children, assume it's ready
+          if (form.children.length > 0) return true;
+          // Or if it's visible (not display:none)
+          const style = window.getComputedStyle(form);
+          if (style.display !== 'none' && style.visibility !== 'hidden')
+            return true;
+          return false;
+        };
+
+        const tryHide = () => {
+          if (checkFormReady()) {
+            loader.style.transition = 'opacity 300ms ease';
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 350);
+            return true;
+          }
+          return false;
+        };
+
+        // Hide immediately when the form:ready event is dispatched
+        document.addEventListener('form:ready', tryHide);
+
+        // Poll for readiness for up to 10s as a fallback
+        let elapsed = 0;
+        const interval = setInterval(() => {
+          if (tryHide() || elapsed >= 10000) {
+            clearInterval(interval);
+            if (elapsed >= 10000) {
+              // fallback: remove loader even if form didn't populate
+              loader.style.transition = 'opacity 300ms ease';
+              loader.style.opacity = '0';
+              setTimeout(() => loader.remove(), 350);
+            }
+          }
+          elapsed += 250;
+        }, 250);
+
+        // Also hide on DOMContentLoaded in case form is already added synchronously
+        document.addEventListener('DOMContentLoaded', tryHide);
+      })();
+    </script>
   </body>
 </html>

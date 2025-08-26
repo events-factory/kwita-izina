@@ -2,6 +2,17 @@ $(document).ready(function () {
   let progress_submit = false;
   initializeForm();
 });
+// Dispatch a custom event when the registration form has been populated
+function notifyFormReady() {
+  try {
+    document.dispatchEvent(new Event('form:ready'));
+  } catch (e) {
+    // older browsers fallback
+    var evt = document.createEvent('Event');
+    evt.initEvent('form:ready', true, true);
+    document.dispatchEvent(evt);
+  }
+}
 var paymentAmount = 0;
 currentLanguage = 'en';
 function initializeForm() {
@@ -64,6 +75,8 @@ function initializeForm() {
               </div>
           </div>
         `);
+        // notify loader that the form area has been populated
+        notifyFormReady();
       } else {
         displayForm(category_code_id);
       }
@@ -135,6 +148,8 @@ function getCategories(event_type) {
           `);
         }
       });
+      // notify loader that the form area has been populated with categories
+      notifyFormReady();
     }
   });
 
@@ -193,6 +208,9 @@ function displayForm(category_id) {
           
         `);
       });
+
+      // after injecting all fieldsets and inputs, notify loader
+      notifyFormReady();
 
       if ($('#registration-form').hasClass('multi-step')) {
         let stepsCount = $('#registration-form').children('filedset').length;
@@ -1070,6 +1088,14 @@ function submitForm() {
   return new Promise((resolve, reject) => {
     $('.loader').fadeIn();
     $('.loader-overlay').fadeIn('slow');
+    // also show the localized form loader under the title if present
+    try {
+      const formLoader = document.getElementById('form-loader');
+      if (formLoader) {
+        formLoader.style.display = 'flex';
+        formLoader.style.opacity = '1';
+      }
+    } catch (e) {}
     let data = getFormInputData();
     if (
       $('#input_id_1729166628').val() == 'Bank Transfer' &&
@@ -1077,6 +1103,14 @@ function submitForm() {
     ) {
       $('.loader').fadeOut();
       $('.loader-overlay').fadeOut('slow');
+      try {
+        const formLoader = document.getElementById('form-loader');
+        if (formLoader) {
+          formLoader.style.transition = 'opacity 300ms ease';
+          formLoader.style.opacity = '0';
+          setTimeout(() => (formLoader.style.display = 'none'), 350);
+        }
+      } catch (e) {}
       alert('Please uppload a valid payment proof');
     } else {
       const xhr = new XMLHttpRequest();
@@ -1087,6 +1121,15 @@ function submitForm() {
             $('.loader').fadeOut();
             $('.loader-overlay').fadeOut('slow');
           }, 1000);
+          // hide the localized form loader as well
+          try {
+            const formLoader = document.getElementById('form-loader');
+            if (formLoader) {
+              formLoader.style.transition = 'opacity 300ms ease';
+              formLoader.style.opacity = '0';
+              setTimeout(() => (formLoader.style.display = 'none'), 350);
+            }
+          } catch (e) {}
           let res = JSON.parse(xhr.response);
           switch (this.status) {
             case 200:
